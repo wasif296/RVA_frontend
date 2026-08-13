@@ -1,0 +1,327 @@
+@import "tailwindcss";
+
+/*
+  RVA — Remote VA's Academy
+  Feel: warm, calm, premium. Deep teal brand + honey accent.
+  Typography: Fraunces (display) + Source Sans 3 (UI/body).
+  Why this pairing: Fraunces is a soft, optical-size serif with quiet
+  personality — confident without corporate stiffness. Source Sans 3 is
+  highly readable at UI sizes and pairs cleanly with Fraunces' curves.
+  Hex lives ONLY here — components use semantic token names.
+*/
+
+@theme {
+  /* —— Brand (deep teal, enriched) —— */
+  --color-brand-50: #f2faf8;
+  --color-brand-100: #d9f0ea;
+  --color-brand-200: #b3e0d5;
+  --color-brand-300: #7fc9bb;
+  --color-brand-400: #45a897;
+  --color-brand-500: #258f7d;
+  --color-brand-600: #0f7264;
+  --color-brand-700: #0c5b51;
+  --color-brand-800: #0d4942;
+  --color-brand-900: #0c3d38;
+  --color-brand-950: #052420;
+
+  /* —— Accent (warm honey / copper) —— */
+  --color-accent-50: #fff8f1;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fcd9a8;
+  --color-accent-300: #f5bd71;
+  --color-accent-400: #e89a3c;
+  --color-accent-500: #d47d1f;
+  --color-accent-600: #b86214;
+  --color-accent-700: #944a12;
+  --color-accent-800: #783c15;
+  --color-accent-900: #633314;
+  --color-accent-950: #391806;
+
+  /* —— Neutral (cool-warm, slight teal cast) —— */
+  --color-neutral-50: #f5f7f6;
+  --color-neutral-100: #e8eceb;
+  --color-neutral-200: #d2d9d7;
+  --color-neutral-300: #afb9b6;
+  --color-neutral-400: #84918e;
+  --color-neutral-500: #677572;
+  --color-neutral-600: #515d5b;
+  --color-neutral-700: #434c4a;
+  --color-neutral-800: #394140;
+  --color-neutral-900: #323837;
+  --color-neutral-950: #1e2322;
+
+  /* —— Semantic —— */
+  --color-success: #147a48;
+  --color-success-subtle: #e6f6ed;
+  --color-warning: #9a6700;
+  --color-warning-subtle: #fff6e0;
+  --color-danger: #b93a2f;
+  --color-danger-subtle: #fdecea;
+  --color-info: #1a6f8a;
+  --color-info-subtle: #e6f4f8;
+
+  /* —— Surface hierarchy —— */
+  --color-bg: #eef3f1;
+  --color-surface: #ffffff;
+  --color-surface-raised: #fffcfa;
+  --color-surface-muted: #e4ebe8;
+  --color-inverse: #ffffff;
+  --color-fg: var(--color-neutral-950);
+  --color-fg-muted: var(--color-neutral-600);
+  --color-border: #d5dedb;
+  --color-border-subtle: #e4ebe8;
+  --color-ring: var(--color-brand-600);
+  /* AA-safe disabled: ≥4.5:1 on disabled background */
+  --color-disabled-bg: var(--color-neutral-100);
+  --color-disabled-fg: var(--color-neutral-600);
+  --color-disabled-border: var(--color-neutral-200);
+
+  /* —— Typography —— */
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  --leading-body: 1.55;
+  --leading-heading: 1.15;
+  --tracking-display: -0.03em;
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.06em;
+
+  /* —— Spacing (4px base, steps 1–16) —— */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-7: 1.75rem;
+  --spacing-8: 2rem;
+  --spacing-9: 2.25rem;
+  --spacing-10: 2.5rem;
+  --spacing-11: 2.75rem;
+  --spacing-12: 3rem;
+  --spacing-13: 3.25rem;
+  --spacing-14: 3.5rem;
+  --spacing-15: 3.75rem;
+  --spacing-16: 4rem;
+
+  /* —— Radius —— */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-full: 9999px;
+
+  /* —— Shadows (soft, layered, teal-tinted) —— */
+  --shadow-sm: 0 1px 2px rgb(5 36 32 / 0.04), 0 1px 1px rgb(5 36 32 / 0.03);
+  --shadow-md:
+    0 4px 14px -2px rgb(5 36 32 / 0.08), 0 2px 6px -2px rgb(5 36 32 / 0.04);
+  --shadow-lg:
+    0 18px 36px -10px rgb(5 36 32 / 0.14), 0 8px 14px -6px rgb(5 36 32 / 0.06);
+
+  /* —— Motion —— */
+  --duration-fast: 150ms;
+  --duration-normal: 220ms;
+  --duration-slow: 480ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    font-size: 100%;
+    line-height: var(--leading-body);
+    color: var(--color-fg);
+    background-color: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    background-image:
+      radial-gradient(
+        ellipse 90% 55% at 50% -12%,
+        color-mix(in srgb, var(--color-brand-200) 40%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 50% 40% at 100% 0%,
+        color-mix(in srgb, var(--color-accent-200) 22%, transparent),
+        transparent 55%
+      );
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    line-height: var(--leading-heading);
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+    letter-spacing: var(--tracking-display);
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  p {
+    max-width: 40rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-2);
+  }
+
+  .page-header__copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    min-width: 0;
+  }
+
+  .page-header__title {
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    line-height: var(--leading-heading);
+    letter-spacing: var(--tracking-display);
+    font-weight: 700;
+    color: var(--color-fg);
+  }
+
+  .page-header__subtitle {
+    font-size: var(--text-base);
+    color: var(--color-fg-muted);
+    max-width: 36rem;
+    line-height: var(--leading-body);
+  }
+
+  .page-header__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-3);
+  }
+
+  .section-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-10);
+  }
+
+  .prose-readable {
+    max-width: 40rem;
+    line-height: var(--leading-body);
+    color: var(--color-fg-muted);
+  }
+
+  .course-grid {
+    display: grid;
+    gap: var(--spacing-6);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18.75rem), 1fr));
+  }
+
+  .card-interactive {
+    transition:
+      transform var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-normal) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .card-interactive:hover {
+    transform: translateY(-0.125rem);
+    box-shadow: var(--shadow-md);
+    border-color: color-mix(in srgb, var(--color-brand-300) 55%, var(--color-border));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-interactive,
+    .card-interactive:hover {
+      transform: none;
+    }
+  }
+
+  @keyframes toast-enter {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes points-pop {
+    0% {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .toast-enter {
+    animation: toast-enter var(--duration-slow) var(--ease-out);
+  }
+
+  .points-pop {
+    animation: points-pop var(--duration-slow) var(--ease-out);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toast-enter,
+    .points-pop {
+      animation: none;
+    }
+  }
+}
