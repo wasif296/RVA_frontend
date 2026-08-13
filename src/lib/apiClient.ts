@@ -15,12 +15,16 @@ export class ApiError extends Error {
   }
 }
 
-let refreshPromise: Promise<string | null> | null = null;
+const API_BASE_URL = String(import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '');
 
-function normalizePath(path: string): string {
+/** Absolute API URL. Empty VITE_API_BASE_URL keeps relative `/api` for the Vite proxy. */
+export function apiUrl(path: string): string {
   const normalized = path.startsWith('/') ? path : `/${path}`;
-  return `/api${normalized}`;
+  const apiPath = `/api${normalized}`;
+  return API_BASE_URL ? `${API_BASE_URL}${apiPath}` : apiPath;
 }
+
+let refreshPromise: Promise<string | null> | null = null;
 
 async function parseError(response: Response): Promise<ApiError> {
   let code = 'INTERNAL_ERROR';
@@ -47,8 +51,9 @@ async function refreshAccessToken(): Promise<string | null> {
   if (!refreshPromise) {
     refreshPromise = (async () => {
       try {
-        const response = await fetch('/api/auth/refresh', {
+        const response = await fetch(apiUrl('/auth/refresh'), {
           method: 'POST',
+          // Cross-origin refresh cookie will not be sent without this.
           credentials: 'include',
         });
 
@@ -83,7 +88,7 @@ function hardLogoutToLogin(): void {
 }
 
 export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const url = normalizePath(path);
+  const url = apiUrl(path);
   const isRefreshCall = path === '/auth/refresh' || path === 'auth/refresh';
 
   const execute = async (token: string | null): Promise<Response> => {

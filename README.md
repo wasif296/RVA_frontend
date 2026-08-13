@@ -4,6 +4,8 @@ Web app for **RVA — Remote VA's Academy**.
 
 > **Shared copy:** Types and constants under `src/shared/` are a copy of `RVA_backend/src/shared/`. The backend is the source of truth — copy changes by hand after updating the backend.
 
+Production deploy target: **Vercel**. See [DEPLOYMENT.md](./DEPLOYMENT.md).
+
 ## Prerequisites
 
 - Node.js 22+
@@ -13,7 +15,7 @@ Web app for **RVA — Remote VA's Academy**.
 
 ```bash
 cp .env.example .env
-# Optional: set VITE_API_BASE only if you are not using the Vite proxy
+# Leave VITE_API_BASE_URL empty locally so requests use /api and the Vite proxy
 npm install
 ```
 
@@ -21,7 +23,7 @@ npm install
 
 | Name | Purpose |
 |------|---------|
-| `VITE_API_BASE` | API base URL; leave empty in local dev so requests use `/api` and the Vite proxy |
+| `VITE_API_BASE_URL` | Backend origin in production; empty in local dev. Public (`VITE_` is always exposed). |
 
 ## Scripts
 
@@ -32,9 +34,17 @@ npm run preview
 npm run typecheck
 ```
 
+## Production (Vercel)
+
+| | |
+|---|---|
+| **Build command** | `npm run build` |
+| **Output directory** | `dist` |
+
+Deploy order: backend first → this app with `VITE_API_BASE_URL` → update backend `CORS_ORIGIN`. Full steps in [DEPLOYMENT.md](./DEPLOYMENT.md).
+
 ## Dev workflow
 
 1. Start `RVA_backend` on port **4000**.
 2. Start this app with `npm run dev`.
 3. Browse `http://localhost:5173`. The proxy keeps `/api` same-origin so cookies work without changing CORS for local development.
-# RVA_frontend

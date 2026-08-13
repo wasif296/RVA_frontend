@@ -35,6 +35,7 @@ const emptyValues: CourseFormValues = {
   title: '',
   description: '',
   thumbnailUrl: '',
+  thumbnailPublicId: '',
   category: '',
   level: 'beginner',
   status: 'draft',
@@ -49,6 +50,7 @@ function formSnapshot(values: CourseFormValues): string {
     title: values.title.trim(),
     description: values.description.trim(),
     thumbnailUrl: values.thumbnailUrl.trim(),
+    thumbnailPublicId: values.thumbnailPublicId.trim(),
     category: values.category.trim(),
     level: values.level,
   });
@@ -63,18 +65,22 @@ function toDraftCreateInput(values: CourseFormValues): CreateCourseInput {
     status: 'draft',
   };
   const thumb = values.thumbnailUrl.trim();
+  const publicId = values.thumbnailPublicId.trim();
   if (thumb) input.thumbnailUrl = thumb;
+  if (publicId) input.thumbnailPublicId = publicId;
   return input;
 }
 
 function toDraftUpdateInput(values: CourseFormValues): UpdateCourseInput {
   const thumb = values.thumbnailUrl.trim();
+  const publicId = values.thumbnailPublicId.trim();
   return {
     title: values.title.trim(),
     description: values.description.trim(),
     category: values.category.trim() || 'General',
     level: values.level,
     thumbnailUrl: thumb ? thumb : null,
+    thumbnailPublicId: publicId ? publicId : null,
   };
 }
 
@@ -117,6 +123,7 @@ export function CourseCreateWizardPage() {
       title: course.title,
       description: course.description,
       thumbnailUrl: course.thumbnailUrl ?? '',
+      thumbnailPublicId: course.thumbnailPublicId ?? '',
       category: course.category,
       level: course.level,
       status: course.status,

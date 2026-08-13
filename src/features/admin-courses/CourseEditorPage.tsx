@@ -20,6 +20,7 @@ const emptyValues: CourseFormValues = {
   title: '',
   description: '',
   thumbnailUrl: '',
+  thumbnailPublicId: '',
   category: '',
   level: 'beginner',
   status: 'draft',
@@ -27,6 +28,7 @@ const emptyValues: CourseFormValues = {
 
 function toUpdateInput(values: CourseFormValues): UpdateCourseInput {
   const thumb = values.thumbnailUrl.trim();
+  const publicId = values.thumbnailPublicId.trim();
   return {
     title: values.title.trim(),
     description: values.description.trim(),
@@ -34,6 +36,7 @@ function toUpdateInput(values: CourseFormValues): UpdateCourseInput {
     level: values.level,
     status: values.status,
     thumbnailUrl: thumb ? thumb : null,
+    thumbnailPublicId: publicId ? publicId : null,
   };
 }
 
@@ -54,6 +57,7 @@ export function CourseEditorPage() {
       title: course.title,
       description: course.description,
       thumbnailUrl: course.thumbnailUrl ?? '',
+      thumbnailPublicId: course.thumbnailPublicId ?? '',
       category: course.category,
       level: course.level,
       status: course.status,

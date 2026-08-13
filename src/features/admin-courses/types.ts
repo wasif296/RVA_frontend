@@ -6,6 +6,7 @@ export type AdminCourse = {
   slug: string;
   description: string;
   thumbnailUrl: string | null;
+  thumbnailPublicId: string | null;
   category: string;
   level: CourseLevel;
   status: CourseStatus;
@@ -29,6 +30,7 @@ export type CourseFormValues = {
   title: string;
   description: string;
   thumbnailUrl: string;
+  thumbnailPublicId: string;
   category: string;
   level: CourseLevel;
   status: CourseStatus;
@@ -38,6 +40,7 @@ export type CreateCourseInput = {
   title: string;
   description: string;
   thumbnailUrl?: string;
+  thumbnailPublicId?: string;
   category: string;
   level: CourseLevel;
   status?: CourseStatus;
@@ -47,6 +50,7 @@ export type UpdateCourseInput = {
   title?: string;
   description?: string;
   thumbnailUrl?: string | null;
+  thumbnailPublicId?: string | null;
   category?: string;
   level?: CourseLevel;
   status?: CourseStatus;

@@ -101,10 +101,14 @@ export function CourseForm({
     setUploadProgress(0);
 
     try {
-      const { url } = await uploadCourseThumbnail(file, {
+      const { url, publicId } = await uploadCourseThumbnail(file, {
         onProgress: setUploadProgress,
       });
-      setValues((prev) => ({ ...prev, thumbnailUrl: url }));
+      setValues((prev) => ({
+        ...prev,
+        thumbnailUrl: url,
+        thumbnailPublicId: publicId ?? '',
+      }));
       setUploadProgress(null);
       setLocalPreview((prev) => {
         if (prev) URL.revokeObjectURL(prev);
@@ -241,7 +245,11 @@ export function CourseForm({
           value={values.thumbnailUrl}
           onChange={(event) => {
             setUploadError(null);
-            setValues((prev) => ({ ...prev, thumbnailUrl: event.target.value }));
+            setValues((prev) => ({
+              ...prev,
+              thumbnailUrl: event.target.value,
+              thumbnailPublicId: '',
+            }));
           }}
         />
       </div>

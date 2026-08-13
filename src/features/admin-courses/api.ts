@@ -1,4 +1,4 @@
-import { ApiError, apiFetch, refreshAccessToken } from '../../lib/apiClient';
+import { ApiError, apiFetch, apiUrl, refreshAccessToken } from '../../lib/apiClient';
 import { useAuthStore } from '../../store/auth';
 import type {
   AdminCourse,
@@ -61,11 +61,14 @@ type UploadThumbnailOptions = {
 export function uploadCourseThumbnail(
   file: File,
   options: UploadThumbnailOptions = {},
-): Promise<{ url: string }> {
-  const send = (token: string | null, allowRefresh: boolean): Promise<{ url: string }> =>
+): Promise<{ url: string; publicId: string | null }> {
+  const send = (
+    token: string | null,
+    allowRefresh: boolean,
+  ): Promise<{ url: string; publicId: string | null }> =>
     new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/uploads/thumbnail');
+      xhr.open('POST', apiUrl('/uploads/thumbnail'));
       xhr.withCredentials = true;
       if (token) {
         xhr.setRequestHeader('Authorization', `Bearer ${token}`);
@@ -79,6 +82,7 @@ export function uploadCourseThumbnail(
       xhr.onload = async () => {
         let body: {
           url?: string;
+          publicId?: string | null;
           error?: { code?: string; message?: string; details?: unknown };
         } = {};
         try {
@@ -126,7 +130,7 @@ export function uploadCourseThumbnail(
         }
 
         options.onProgress?.(100);
-        resolve({ url: body.url });
+        resolve({ url: body.url, publicId: body.publicId ?? null });
       };
 
       xhr.onerror = () => {
