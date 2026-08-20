@@ -66,7 +66,7 @@ export function AdminShell() {
       <aside className="hidden w-56 shrink-0 flex-col border-r border-border bg-surface md:flex">
         <div className="border-b border-border px-4 py-5">
           <RvaMark size="sm" />
-          <p className="mt-1 text-xs text-fg-muted">Admin</p>
+          <p className="mt-2 text-xs text-fg-muted">Admin</p>
         </div>
         <nav className="flex flex-1 flex-col gap-1 p-3" aria-label="Admin">
           {adminLinks.map((link) => (

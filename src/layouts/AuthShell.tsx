@@ -5,7 +5,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col bg-bg text-fg">
       <div className="border-b border-border/80 bg-surface/90 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-5 md:px-8">
+        <div className="mx-auto flex max-w-5xl items-center gap-4 px-4 py-5 md:px-8">
           <RvaMark size="md" />
           <div className="min-w-0">
             <p className="text-sm font-medium text-fg">Remote VA&apos;s Academy</p>
