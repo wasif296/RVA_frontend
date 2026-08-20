@@ -37,7 +37,7 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
         >
           <div
             className={cn(
-              'h-full rounded-full bg-linear-to-r from-brand-700 via-brand-500 to-accent-400',
+              'h-full rounded-full bg-linear-to-r from-accent-700 via-accent-600 to-accent-600',
               'transition-[width] duration-slow ease-out motion-reduce:transition-none',
             )}
             style={{ width: `${clamped}%` }}

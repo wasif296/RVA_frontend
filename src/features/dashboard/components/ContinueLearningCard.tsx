@@ -8,11 +8,7 @@ type ContinueLearningCardProps = {
 
 export function ContinueLearningCard({ item }: ContinueLearningCardProps) {
   return (
-    <article className="overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
-      <div
-        className="h-1 bg-linear-to-r from-brand-600 via-brand-500 to-accent-400"
-        aria-hidden
-      />
+    <article className="card-highlight overflow-hidden rounded-xl border">
       <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <div className="min-w-0 flex-1">
           <h3 className="font-display text-xl tracking-tight text-fg">{item.courseTitle}</h3>

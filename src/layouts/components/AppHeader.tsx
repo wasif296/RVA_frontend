@@ -87,7 +87,7 @@ export function AppHeader() {
               {badges.length > 0 ? (
                 <BadgeList badges={badges} variant="compact" />
               ) : null}
-              <Badge variant="brand" size="sm" aria-label={`${user.totalPoints} points`}>
+              <Badge variant="accent" size="sm" aria-label={`${user.totalPoints} points`}>
                 {formatPoints(user.totalPoints)} pts
               </Badge>
             </div>

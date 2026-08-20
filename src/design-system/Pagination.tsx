@@ -45,7 +45,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
         onClick={() => onPageChange(safePage - 1)}
         className={cn(
           'inline-flex h-10 items-center gap-1 rounded-md border border-border bg-surface px-3 text-sm text-fg',
-          'hover:bg-neutral-100',
+          'hover:bg-accent-50',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
           'disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-600',
         )}
@@ -72,8 +72,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
                   'inline-flex h-10 w-10 items-center justify-center rounded-md text-sm',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
                   item === safePage
-                    ? 'bg-brand-600 text-inverse'
-                    : 'border border-border bg-surface text-fg hover:bg-neutral-100',
+                    ? 'bg-accent-100 text-brand-800 ring-1 ring-inset ring-accent-600'
+                    : 'border border-border bg-surface text-fg hover:bg-accent-50',
                 )}
               >
                 {item}
@@ -89,7 +89,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
         onClick={() => onPageChange(safePage + 1)}
         className={cn(
           'inline-flex h-10 items-center gap-1 rounded-md border border-border bg-surface px-3 text-sm text-fg',
-          'hover:bg-neutral-100',
+          'hover:bg-accent-50',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
           'disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-600',
         )}

@@ -4,13 +4,13 @@ import { Spinner } from './Spinner';
 
 const variantClasses = {
   primary:
-    'bg-brand-600 text-inverse shadow-sm hover:bg-brand-700 hover:shadow-md active:bg-brand-800',
+    'bg-brand-600 text-inverse shadow-sm hover:bg-accent-700 hover:shadow-md active:bg-accent-800',
   secondary:
-    'bg-neutral-100 text-neutral-900 hover:bg-neutral-200 active:bg-neutral-300',
+    'bg-brand-800 text-accent-400 shadow-sm hover:bg-brand-900 hover:text-accent-300 active:bg-brand-950',
   outline:
-    'border border-border bg-surface text-fg shadow-sm hover:bg-neutral-50 hover:border-brand-300 active:bg-neutral-100',
+    'border border-border bg-surface text-fg shadow-sm hover:bg-accent-50 hover:border-accent-600 active:bg-accent-100',
   ghost:
-    'bg-transparent text-fg hover:bg-neutral-100 focus-visible:bg-neutral-100 active:bg-neutral-200',
+    'bg-transparent text-fg hover:bg-accent-50 focus-visible:bg-accent-50 active:bg-accent-100',
   danger: 'bg-danger text-inverse shadow-sm hover:bg-danger/90 active:bg-danger',
 } as const;
 

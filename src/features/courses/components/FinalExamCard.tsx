@@ -41,9 +41,7 @@ export function FinalExamCard({
     <section
       className={cn(
         'flex flex-col gap-4 rounded-lg border p-5',
-        unlocked
-          ? 'border-brand-300 bg-brand-50 shadow-sm'
-          : 'border-border bg-surface',
+        unlocked ? 'card-highlight' : 'border-border bg-surface',
       )}
     >
       <div className="flex flex-col gap-1">

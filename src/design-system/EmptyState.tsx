@@ -12,7 +12,7 @@ function EmptyIllustration() {
   return (
     <svg
       viewBox="0 0 80 64"
-      className="size-14 text-brand-600"
+      className="size-14 text-accent-600"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden
@@ -23,7 +23,7 @@ function EmptyIllustration() {
         width="48"
         height="40"
         rx="10"
-        className="fill-brand-100 stroke-brand-300"
+        className="fill-accent-100 stroke-accent-300"
         strokeWidth="1.5"
       />
       <rect
@@ -32,16 +32,16 @@ function EmptyIllustration() {
         width="48"
         height="40"
         rx="10"
-        className="fill-surface stroke-brand-400"
+        className="fill-surface stroke-accent-600"
         strokeWidth="1.5"
       />
       <path
         d="M34 24h28M34 32h20"
-        className="stroke-brand-500"
+        className="stroke-accent-700"
         strokeWidth="2"
         strokeLinecap="round"
       />
-      <circle cx="62" cy="44" r="10" className="fill-accent-400" />
+      <circle cx="62" cy="44" r="10" className="fill-accent-600" />
       <path
         d="M58 44h8M62 40v8"
         className="stroke-inverse"
@@ -64,11 +64,11 @@ export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
         {...props}
       >
         {icon ? (
-          <div className="flex size-14 items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-4 ring-brand-100/70">
+          <div className="flex size-14 items-center justify-center rounded-full bg-accent-50 text-accent-700 ring-4 ring-accent-100/70">
             {icon}
           </div>
         ) : (
-          <div className="flex items-center justify-center rounded-xl bg-brand-50 px-4 py-3 ring-4 ring-brand-100/70">
+          <div className="flex items-center justify-center rounded-xl bg-accent-50 px-4 py-3 ring-4 ring-accent-100/70">
             <EmptyIllustration />
           </div>
         )}

@@ -50,7 +50,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
         disabled={disabled}
         className={cn(
           'relative flex cursor-pointer select-none items-center rounded-sm px-3 py-2 text-sm outline-none',
-          'focus:bg-neutral-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset',
+          'focus:bg-accent-50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset',
           destructive ? 'text-danger focus:bg-danger-subtle' : 'text-fg',
           'data-[disabled]:pointer-events-none data-[disabled]:bg-neutral-100 data-[disabled]:text-neutral-600',
           className,

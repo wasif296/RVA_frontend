@@ -1,0 +1,22 @@
+{
+  "name": "RVA — Remote VA's Academy",
+  "short_name": "RVA",
+  "description": "Build professional virtual assistant skills through lessons, quizzes, and graded exams.",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "theme_color": "#021F4B",
+  "background_color": "#021F4B",
+  "display": "standalone",
+  "start_url": "/"
+}

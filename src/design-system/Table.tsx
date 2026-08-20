@@ -105,7 +105,7 @@ function TableInner<T>(
             </thead>
             <tbody>
               {rows.map((row, rowIndex) => (
-                <tr key={rowIndex} className="border-t border-border bg-surface">
+                <tr key={rowIndex} className="border-t border-border bg-surface hover:bg-accent-50">
                   {columns.map((column) => (
                     <td
                       key={column.key}

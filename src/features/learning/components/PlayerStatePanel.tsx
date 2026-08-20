@@ -84,15 +84,11 @@ export function PlayerStatePanel({
       {justCompleted ? (
         <div
           className={cn(
-            'overflow-hidden rounded-xl border border-success/25 bg-linear-to-br',
-            'from-success-subtle via-surface-raised to-accent-50 shadow-md points-pop',
+            'card-highlight overflow-hidden rounded-xl border bg-linear-to-br',
+            'from-success-subtle via-surface-raised to-accent-50 points-pop',
           )}
           role="status"
         >
-          <div
-            className="h-1 bg-linear-to-r from-brand-600 via-brand-500 to-accent-400"
-            aria-hidden
-          />
           <div className="flex flex-col gap-4 p-5">
             <div>
               <p className="font-display text-xl tracking-tight text-fg">Video complete</p>

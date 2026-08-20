@@ -29,7 +29,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? errorId : undefined}
             className={cn(
-              'mt-1 size-4 shrink-0 rounded-sm border border-border bg-surface text-brand-600',
+              'mt-1 size-4 shrink-0 rounded-sm border border-border bg-surface text-accent-600 accent-accent-600',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
               'disabled:cursor-not-allowed disabled:bg-disabled-bg disabled:border-disabled-border',
               error && 'border-danger',

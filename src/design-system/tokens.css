@@ -5,40 +5,44 @@
 
 /*
   RVA — Remote VA's Academy
-  Feel: warm, calm, premium. Deep teal brand + honey accent.
+  Feel: precise, calm, premium. Deep navy brand + cyan accent,
+  sampled from the RVA mark (navy #021F4B, cyan #03A3BB).
   Typography: Fraunces (display) + Source Sans 3 (UI/body).
   Why this pairing: Fraunces is a soft, optical-size serif with quiet
   personality — confident without corporate stiffness. Source Sans 3 is
   highly readable at UI sizes and pairs cleanly with Fraunces' curves.
   Hex lives ONLY here — components use semantic token names.
+  Cyan is a fill, edge and state colour (3.02:1 on white — never small text);
+  navy carries text, links, and resting primary button labels.
+  Focus rings use accent-600 (3.56:1 on --color-bg) not logo cyan-500.
 */
 
 @theme {
-  /* —— Brand (deep teal, enriched) —— */
-  --color-brand-50: #f2faf8;
-  --color-brand-100: #d9f0ea;
-  --color-brand-200: #b3e0d5;
-  --color-brand-300: #7fc9bb;
-  --color-brand-400: #45a897;
-  --color-brand-500: #258f7d;
-  --color-brand-600: #0f7264;
-  --color-brand-700: #0c5b51;
-  --color-brand-800: #0d4942;
-  --color-brand-900: #0c3d38;
-  --color-brand-950: #052420;
+  /* —— Brand (logo navy #021F4B as 800) —— */
+  --color-brand-50: #f0f2f4;
+  --color-brand-100: #e1e4e9;
+  --color-brand-200: #c2c9d4;
+  --color-brand-300: #9faabb;
+  --color-brand-400: #7b8ba1;
+  --color-brand-500: #536785;
+  --color-brand-600: #2a4368;
+  --color-brand-700: #163159;
+  --color-brand-800: #021f4b;
+  --color-brand-900: #02193e;
+  --color-brand-950: #01132f;
 
-  /* —— Accent (warm honey / copper) —— */
-  --color-accent-50: #fff8f1;
-  --color-accent-100: #ffedd5;
-  --color-accent-200: #fcd9a8;
-  --color-accent-300: #f5bd71;
-  --color-accent-400: #e89a3c;
-  --color-accent-500: #d47d1f;
-  --color-accent-600: #b86214;
-  --color-accent-700: #944a12;
-  --color-accent-800: #783c15;
-  --color-accent-900: #633314;
-  --color-accent-950: #391806;
+  /* —— Accent (logo cyan #03A3BB as 500; 700+ are AA text) —— */
+  --color-accent-50: #f0f9fb;
+  --color-accent-100: #e1f4f7;
+  --color-accent-200: #c3e9ef;
+  --color-accent-300: #9adae4;
+  --color-accent-400: #4fbfcf;
+  --color-accent-500: #03a3bb;
+  --color-accent-600: #038ba7;
+  --color-accent-700: #037695;
+  --color-accent-800: #036687;
+  --color-accent-900: #02567a;
+  --color-accent-950: #024168;
 
   /* —— Neutral (cool-warm, slight teal cast) —— */
   --color-neutral-50: #f5f7f6;
@@ -54,8 +58,8 @@
   --color-neutral-950: #1e2322;
 
   /* —— Semantic —— */
-  --color-success: #147a48;
-  --color-success-subtle: #e6f6ed;
+  --color-success: var(--color-accent-800);
+  --color-success-subtle: var(--color-accent-50);
   --color-warning: #9a6700;
   --color-warning-subtle: #fff6e0;
   --color-danger: #b93a2f;
@@ -73,7 +77,7 @@
   --color-fg-muted: var(--color-neutral-600);
   --color-border: #d5dedb;
   --color-border-subtle: #e4ebe8;
-  --color-ring: var(--color-brand-600);
+  --color-ring: var(--color-accent-600);
   /* AA-safe disabled: ≥4.5:1 on disabled background */
   --color-disabled-bg: var(--color-neutral-100);
   --color-disabled-fg: var(--color-neutral-600);
@@ -124,12 +128,12 @@
   --radius-xl: 1.25rem;
   --radius-full: 9999px;
 
-  /* —— Shadows (soft, layered, teal-tinted) —— */
-  --shadow-sm: 0 1px 2px rgb(5 36 32 / 0.04), 0 1px 1px rgb(5 36 32 / 0.03);
+  /* —— Shadows (soft, layered, navy-tinted) —— */
+  --shadow-sm: 0 1px 2px rgb(2 31 75 / 0.04), 0 1px 1px rgb(2 31 75 / 0.03);
   --shadow-md:
-    0 4px 14px -2px rgb(5 36 32 / 0.08), 0 2px 6px -2px rgb(5 36 32 / 0.04);
+    0 4px 14px -2px rgb(2 31 75 / 0.08), 0 2px 6px -2px rgb(2 31 75 / 0.04);
   --shadow-lg:
-    0 18px 36px -10px rgb(5 36 32 / 0.14), 0 8px 14px -6px rgb(5 36 32 / 0.06);
+    0 18px 36px -10px rgb(2 31 75 / 0.14), 0 8px 14px -6px rgb(2 31 75 / 0.06);
 
   /* —— Motion —— */
   --duration-fast: 150ms;
@@ -156,15 +160,46 @@
     background-image:
       radial-gradient(
         ellipse 90% 55% at 50% -12%,
-        color-mix(in srgb, var(--color-brand-200) 40%, transparent),
+        color-mix(in srgb, var(--color-brand-200) 28%, transparent),
         transparent 70%
       ),
       radial-gradient(
-        ellipse 50% 40% at 100% 0%,
-        color-mix(in srgb, var(--color-accent-200) 22%, transparent),
-        transparent 55%
+        ellipse 60% 48% at 100% 0%,
+        color-mix(in srgb, var(--color-accent-200) 46%, transparent),
+        transparent 58%
+      ),
+      radial-gradient(
+        ellipse 45% 35% at 0% 100%,
+        color-mix(in srgb, var(--color-accent-100) 55%, transparent),
+        transparent 50%
       );
     background-attachment: fixed;
+  }
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    accent-color: var(--color-accent-600);
+  }
+
+  nav a[aria-current='page'] {
+    background-color: var(--color-accent-100);
+    color: var(--color-brand-800);
+    box-shadow: inset 0 calc(var(--spacing-1) * -1) 0 0 var(--color-accent-600);
+  }
+
+  label.flex:has(> input[type='radio']:checked) {
+    border-color: var(--color-accent-600);
+    background-color: var(--color-accent-50);
+  }
+
+  label.flex:has(> input[type='radio']:checked) svg {
+    color: var(--color-accent-700);
+  }
+
+  tbody tr:has(input:checked),
+  tbody tr[aria-selected='true'] {
+    background-color: var(--color-accent-50);
+    box-shadow: inset var(--spacing-1) 0 0 0 var(--color-accent-600);
   }
 
   h1,
@@ -235,6 +270,16 @@
     color: var(--color-fg);
   }
 
+  .page-header__title::after {
+    content: '';
+    display: block;
+    width: var(--spacing-12);
+    height: var(--spacing-1);
+    margin-top: var(--spacing-3);
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent-600);
+  }
+
   .page-header__subtitle {
     font-size: var(--text-base);
     color: var(--color-fg-muted);
@@ -277,7 +322,25 @@
   .card-interactive:hover {
     transform: translateY(-0.125rem);
     box-shadow: var(--shadow-md);
-    border-color: color-mix(in srgb, var(--color-brand-300) 55%, var(--color-border));
+    border-color: var(--color-accent-600);
+  }
+
+  .card-highlight {
+    border-color: var(--color-accent-600);
+    background-color: var(--color-accent-50);
+    box-shadow:
+      inset 0 var(--spacing-1) 0 0 var(--color-accent-600),
+      var(--shadow-sm);
+  }
+
+  .accent-rail {
+    height: var(--spacing-1);
+    background-image: linear-gradient(
+      to right,
+      var(--color-accent-700),
+      var(--color-accent-600),
+      var(--color-accent-500)
+    );
   }
 
   @media (prefers-reduced-motion: reduce) {

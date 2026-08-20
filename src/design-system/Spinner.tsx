@@ -24,7 +24,7 @@ export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(
         <span
           aria-hidden="true"
           className={cn(
-            'animate-spin rounded-full border-brand-200 border-t-brand-600',
+            'animate-spin rounded-full border-accent-200 border-t-accent-600',
             sizeClasses[size],
           )}
         />
