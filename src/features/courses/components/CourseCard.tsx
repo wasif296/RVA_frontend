@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ImageOff } from 'lucide-react';
 import { Badge, ProgressBar } from '../../../design-system';
 import { cn } from '../../../lib/cn';
 import { formatPoints, formatPercent } from '../../../lib/format';
+import { CourseThumbnail } from './CourseThumbnail';
 
 export type CourseCardModel = {
   courseId: string;
@@ -29,30 +28,13 @@ type CourseCardProps = {
 };
 
 export function CourseCard({ course }: CourseCardProps) {
-  const [thumbBroken, setThumbBroken] = useState(false);
-  const showImage = Boolean(course.thumbnailUrl) && !thumbBroken;
-
   return (
     <article
       className={cn(
         'card-interactive flex h-full flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-sm',
       )}
     >
-      <div className="aspect-video bg-surface-muted">
-        {showImage ? (
-          <img
-            src={course.thumbnailUrl!}
-            alt=""
-            className="size-full object-cover"
-            onError={() => setThumbBroken(true)}
-          />
-        ) : (
-          <div className="flex size-full flex-col items-center justify-center gap-2 bg-linear-to-br from-brand-50 via-surface to-accent-50 text-fg-muted">
-            <ImageOff className="size-8 text-brand-500" aria-hidden />
-            <span className="text-sm">No thumbnail</span>
-          </div>
-        )}
-      </div>
+      <CourseThumbnail src={course.thumbnailUrl} />
 
       <div className="flex flex-1 flex-col gap-4 p-6">
         <div className="flex flex-wrap items-center gap-2">

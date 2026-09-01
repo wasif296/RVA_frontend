@@ -10,7 +10,7 @@ function CourseDetailSkeleton() {
   return (
     <div className="flex flex-col gap-8" aria-busy="true" aria-label="Loading course">
       <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
-        <Skeleton variant="rect" className="aspect-[16/9] w-full lg:w-[min(42%,22rem)]" />
+        <Skeleton variant="rect" className="aspect-video w-full lg:w-[min(42%,22rem)]" />
         <div className="flex flex-1 flex-col gap-3">
           <Skeleton width="sm" height="sm" />
           <Skeleton width="lg" height="lg" className="max-w-md" />

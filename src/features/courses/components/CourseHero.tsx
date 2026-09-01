@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ImageOff } from 'lucide-react';
 import { Badge, ProgressBar } from '../../../design-system';
 import { formatDuration, formatPoints, formatPercent } from '../../../lib/format';
 import type { CourseDetailPayload } from '../course-detail.api';
+import { CourseThumbnail } from './CourseThumbnail';
 
 type CourseHeroProps = {
   course: CourseDetailPayload['course'];
@@ -12,9 +11,6 @@ type CourseHeroProps = {
 };
 
 export function CourseHero({ course, summary, firstLessonId }: CourseHeroProps) {
-  const [thumbBroken, setThumbBroken] = useState(false);
-  const showImage = Boolean(course.thumbnailUrl) && !thumbBroken;
-
   const resumeId = summary.lastLessonId ?? firstLessonId;
   const ctaLabel =
     summary.lastLessonId != null ? 'Continue learning' : 'Start course';
@@ -22,22 +18,11 @@ export function CourseHero({ course, summary, firstLessonId }: CourseHeroProps) 
     resumeId != null ? `/learn/${course.id}/${resumeId}` : undefined;
 
   return (
-    <section className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8">
-      <div className="aspect-[16/9] w-full shrink-0 overflow-hidden rounded-lg bg-neutral-100 lg:aspect-auto lg:w-[min(42%,22rem)] lg:min-h-[14rem]">
-        {showImage ? (
-          <img
-            src={course.thumbnailUrl!}
-            alt=""
-            className="size-full object-cover"
-            onError={() => setThumbBroken(true)}
-          />
-        ) : (
-          <div className="flex size-full flex-col items-center justify-center gap-2 text-fg-muted">
-            <ImageOff className="size-10" aria-hidden />
-            <span className="text-sm">No thumbnail</span>
-          </div>
-        )}
-      </div>
+    <section className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
+      <CourseThumbnail
+        src={course.thumbnailUrl}
+        className="shrink-0 rounded-lg lg:w-[min(42%,22rem)]"
+      />
 
       <div className="flex min-w-0 flex-1 flex-col gap-4">
         <div className="flex flex-wrap items-center gap-2">
