@@ -37,3 +37,12 @@ export type ChangePasswordInput = {
   currentPassword: string;
   newPassword: string;
 };
+
+export type InviteInfo = {
+  name: string;
+  email: string;
+};
+
+export type AcceptInviteInput = {
+  password: string;
+};

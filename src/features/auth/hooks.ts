@@ -60,3 +60,16 @@ export function useChangePassword() {
     },
   });
 }
+
+export function useAcceptInvite(token: string) {
+  const navigate = useNavigate();
+  const setSession = useAuthStore((state) => state.setSession);
+
+  return useMutation({
+    mutationFn: (password: string) => authApi.acceptInvite(token, password),
+    onSuccess: (data) => {
+      setSession(data.user, data.accessToken);
+      navigate(postLoginRedirect(data.user), { replace: true });
+    },
+  });
+}

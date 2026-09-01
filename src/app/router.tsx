@@ -10,6 +10,7 @@ import { AdminProgressPage } from '../features/admin-progress/AdminProgressPage'
 import { UserProgressDetailPage } from '../features/admin-progress/UserProgressDetailPage';
 import { UsersListPage } from '../features/admin-users/UsersListPage';
 import { ChangePasswordPage } from '../features/auth/ChangePasswordPage';
+import { InvitePage } from '../features/auth/InvitePage';
 import { LoginPage } from '../features/auth/LoginPage';
 import { CourseCatalogPage } from '../features/courses/CourseCatalogPage';
 import { CourseDetailPage } from '../features/courses/CourseDetailPage';
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/invite/:token',
+    element: <InvitePage />,
   },
   {
     path: '/dev/gallery',

@@ -6,6 +6,8 @@ export type AdminUser = {
   email: string;
   role: Role;
   isActive: boolean;
+  /** 'pending' until the user accepts their invite and sets a password. */
+  status: 'pending' | 'active';
   mustChangePassword: boolean;
   totalPoints: number;
   lastLoginAt: string | null;
@@ -32,14 +34,10 @@ export type UpdateUserInput = {
   isActive?: boolean;
 };
 
-export type CreateUserResponse = {
+export type UserEmailActionResponse = {
   user: AdminUser;
-  temporaryPassword: string;
-};
-
-export type ResetPasswordResponse = {
-  user: AdminUser;
-  temporaryPassword: string;
+  emailSent: boolean;
+  emailError?: string;
 };
 
 export type UsersPage = Paginated<AdminUser>;

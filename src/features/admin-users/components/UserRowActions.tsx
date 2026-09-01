@@ -10,24 +10,23 @@ import {
   ModalFooter,
   ModalHeader,
 } from '../../../design-system';
-import { useResetUserPassword, useUpdateUser } from '../hooks';
+import { useResendInvite, useResetUserPassword, useUpdateUser } from '../hooks';
 import type { AdminUser } from '../types';
 
 type UserRowActionsProps = {
   user: AdminUser;
   currentAdminId: string;
-  onPasswordRevealed: (password: string) => void;
 };
 
-export function UserRowActions({
-  user,
-  currentAdminId,
-  onPasswordRevealed,
-}: UserRowActionsProps) {
+export function UserRowActions({ user, currentAdminId }: UserRowActionsProps) {
   const updateUser = useUpdateUser();
   const resetPassword = useResetUserPassword();
-  const [confirm, setConfirm] = useState<'reset' | 'deactivate' | 'activate' | null>(null);
+  const resendInvite = useResendInvite();
+  const [confirm, setConfirm] = useState<'reset' | 'resend' | 'deactivate' | 'activate' | null>(
+    null,
+  );
   const isSelf = user.id === currentAdminId;
+  const isPending = user.status === 'pending';
 
   return (
     <>
@@ -46,7 +45,11 @@ export function UserRowActions({
             </Button>
           }
         >
-          <DropdownItem onSelect={() => setConfirm('reset')}>Reset password</DropdownItem>
+          {isPending ? (
+            <DropdownItem onSelect={() => setConfirm('resend')}>Resend invite</DropdownItem>
+          ) : (
+            <DropdownItem onSelect={() => setConfirm('reset')}>Reset password</DropdownItem>
+          )}
           {!isSelf ? (
             <>
               <DropdownSeparator />
@@ -62,14 +65,43 @@ export function UserRowActions({
         </Dropdown>
       </div>
 
-      <Modal open={confirm === 'reset'} onOpenChange={(open) => !open && setConfirm(null)}>
+      <Modal open={confirm === 'resend'} onOpenChange={(open) => !open && setConfirm(null)}>
         <ModalHeader
-          title="Reset password?"
-          description={`Generate a new temporary password for ${user.name}. Their current sessions will end immediately.`}
+          title="Resend invite?"
+          description={`Send a new invite to ${user.name} (${user.email}). Their previous invite link will stop working.`}
         />
         <ModalBody>
           <p className="text-sm text-fg-muted">
-            The new password will be shown once. Ask them to sign in and change it.
+            The new link expires in 48 hours. Use this if they never received the first email.
+          </p>
+        </ModalBody>
+        <ModalFooter>
+          <Button type="button" variant="ghost" onClick={() => setConfirm(null)}>
+            Cancel
+          </Button>
+          <Button
+            type="button"
+            loading={resendInvite.isPending}
+            onClick={() => {
+              resendInvite.mutate(user.id, {
+                onSuccess: () => setConfirm(null),
+              });
+            }}
+          >
+            Resend invite
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal open={confirm === 'reset'} onOpenChange={(open) => !open && setConfirm(null)}>
+        <ModalHeader
+          title="Reset password?"
+          description={`Email ${user.name} a link to set a new password.`}
+        />
+        <ModalBody>
+          <p className="text-sm text-fg-muted">
+            Their current password keeps working until they set a new one. The link expires in 48
+            hours.
           </p>
         </ModalBody>
         <ModalFooter>
@@ -81,14 +113,11 @@ export function UserRowActions({
             loading={resetPassword.isPending}
             onClick={() => {
               resetPassword.mutate(user.id, {
-                onSuccess: (result) => {
-                  setConfirm(null);
-                  onPasswordRevealed(result.temporaryPassword);
-                },
+                onSuccess: () => setConfirm(null),
               });
             }}
           >
-            Reset password
+            Send reset link
           </Button>
         </ModalFooter>
       </Modal>

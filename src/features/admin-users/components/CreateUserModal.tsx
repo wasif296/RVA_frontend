@@ -12,7 +12,7 @@ import {
 } from '../../../design-system';
 import { ApiError } from '../../../lib/apiClient';
 import { useCreateUser } from '../hooks';
-import type { CreateUserResponse } from '../types';
+import type { UserEmailActionResponse } from '../types';
 
 const schema = z.object({
   name: z.string().trim().min(1, 'Name is required'),
@@ -25,7 +25,7 @@ type FormValues = z.infer<typeof schema>;
 type CreateUserModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onCreated: (result: CreateUserResponse) => void;
+  onCreated: (result: UserEmailActionResponse) => void;
 };
 
 export function CreateUserModal({ open, onOpenChange, onCreated }: CreateUserModalProps) {
@@ -50,7 +50,7 @@ export function CreateUserModal({ open, onOpenChange, onCreated }: CreateUserMod
     >
       <ModalHeader
         title="Create user"
-        description="A temporary password will be generated and shown once."
+        description="We'll email them a one-time link to set their own password. The link expires in 48 hours."
       />
       <form
         onSubmit={handleSubmit((values) => {

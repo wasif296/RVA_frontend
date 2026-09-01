@@ -1,10 +1,9 @@
 import { apiFetch } from '../../lib/apiClient';
 import type {
   CreateUserInput,
-  CreateUserResponse,
   ListUsersParams,
-  ResetPasswordResponse,
   UpdateUserInput,
+  UserEmailActionResponse,
   UsersPage,
 } from './types';
 
@@ -20,8 +19,8 @@ export function listUsers(params: ListUsersParams): Promise<UsersPage> {
   return apiFetch<UsersPage>(`/users${query ? `?${query}` : ''}`);
 }
 
-export function createUser(input: CreateUserInput): Promise<CreateUserResponse> {
-  return apiFetch<CreateUserResponse>('/users', {
+export function createUser(input: CreateUserInput): Promise<UserEmailActionResponse> {
+  return apiFetch<UserEmailActionResponse>('/users', {
     method: 'POST',
     body: JSON.stringify(input),
   });
@@ -30,15 +29,21 @@ export function createUser(input: CreateUserInput): Promise<CreateUserResponse> 
 export function updateUser(
   id: string,
   input: UpdateUserInput,
-): Promise<{ user: CreateUserResponse['user'] }> {
+): Promise<{ user: UserEmailActionResponse['user'] }> {
   return apiFetch(`/users/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(input),
   });
 }
 
-export function resetUserPassword(id: string): Promise<ResetPasswordResponse> {
-  return apiFetch<ResetPasswordResponse>(`/users/${id}/reset-password`, {
+export function resetUserPassword(id: string): Promise<UserEmailActionResponse> {
+  return apiFetch<UserEmailActionResponse>(`/users/${id}/reset-password`, {
+    method: 'POST',
+  });
+}
+
+export function resendInvite(id: string): Promise<UserEmailActionResponse> {
+  return apiFetch<UserEmailActionResponse>(`/users/${id}/resend-invite`, {
     method: 'POST',
   });
 }

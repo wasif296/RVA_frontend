@@ -8,25 +8,48 @@ import {
   Pagination,
   Select,
   Table,
+  useToast,
   type TableColumn,
 } from '../../design-system';
 import { useAuthStore } from '../../store/auth';
 import { formatDate } from '../../lib/format';
 import { CreateUserModal } from './components/CreateUserModal';
-import { PasswordRevealModal } from './components/PasswordRevealModal';
 import { UserRowActions } from './components/UserRowActions';
-import { useUsersQuery } from './hooks';
+import { useResendInvite, useUsersQuery } from './hooks';
 import type { AdminUser, ListUsersParams } from './types';
+
+function statusBadge(user: AdminUser) {
+  if (!user.isActive) {
+    return (
+      <Badge variant="warning" size="sm">
+        Inactive
+      </Badge>
+    );
+  }
+  if (user.status === 'pending') {
+    return (
+      <Badge variant="accent" size="sm">
+        Pending invite
+      </Badge>
+    );
+  }
+  return (
+    <Badge variant="success" size="sm">
+      Active
+    </Badge>
+  );
+}
 
 export function UsersListPage() {
   const currentAdminId = useAuthStore((state) => state.user?.id ?? '');
+  const { toast } = useToast();
+  const resendInvite = useResendInvite();
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
   const [role, setRole] = useState<ListUsersParams['role']>('');
   const [isActive, setIsActive] = useState<ListUsersParams['isActive']>('');
   const [createOpen, setCreateOpen] = useState(false);
-  const [revealedPassword, setRevealedPassword] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -51,7 +74,11 @@ export function UsersListPage() {
       {
         key: 'name',
         header: 'Name',
-        render: (row) => <span className="font-medium text-fg">{row.name}</span>,
+        render: (row) => (
+          <span className={row.status === 'pending' ? 'font-medium text-fg-muted' : 'font-medium text-fg'}>
+            {row.name}
+          </span>
+        ),
       },
       {
         key: 'email',
@@ -70,11 +97,7 @@ export function UsersListPage() {
       {
         key: 'status',
         header: 'Status',
-        render: (row) => (
-          <Badge variant={row.isActive ? 'success' : 'warning'} size="sm">
-            {row.isActive ? 'Active' : 'Inactive'}
-          </Badge>
-        ),
+        render: (row) => statusBadge(row),
       },
       {
         key: 'createdAt',
@@ -85,13 +108,7 @@ export function UsersListPage() {
         key: 'actions',
         header: 'Actions',
         align: 'right',
-        render: (row) => (
-          <UserRowActions
-            user={row}
-            currentAdminId={currentAdminId}
-            onPasswordRevealed={setRevealedPassword}
-          />
-        ),
+        render: (row) => <UserRowActions user={row} currentAdminId={currentAdminId} />,
       },
     ],
     [currentAdminId],
@@ -105,7 +122,7 @@ export function UsersListPage() {
         <div className="page-header__copy">
           <h1 className="page-header__title">Users</h1>
           <p className="page-header__subtitle">
-            Create learners and admins, reset access, and deactivate accounts.
+            Invite learners and admins, resend invites, and deactivate accounts.
           </p>
         </div>
         <div className="page-header__actions">
@@ -180,13 +197,28 @@ export function UsersListPage() {
       <CreateUserModal
         open={createOpen}
         onOpenChange={setCreateOpen}
-        onCreated={(result) => setRevealedPassword(result.temporaryPassword)}
-      />
+        onCreated={(result) => {
+          if (result.emailSent) {
+            toast({
+              variant: 'success',
+              title: 'Invite sent',
+              description: `We emailed ${result.user.email} a link to set their password.`,
+            });
+            return;
+          }
 
-      <PasswordRevealModal
-        open={revealedPassword != null}
-        password={revealedPassword ?? ''}
-        onDismiss={() => setRevealedPassword(null)}
+          toast({
+            variant: 'warning',
+            title: 'User created, but the invite email did not send',
+            description:
+              result.emailError ??
+              `We could not email ${result.user.email}. You can resend the invite.`,
+            action: {
+              label: 'Resend invite',
+              onClick: () => resendInvite.mutate(result.user.id),
+            },
+          });
+        }}
       />
     </div>
   );

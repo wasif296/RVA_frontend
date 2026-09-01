@@ -9,14 +9,21 @@ import {
 } from 'react';
 import { CheckCircle2, Info, Sparkles, TriangleAlert, X, XCircle } from 'lucide-react';
 import { cn } from '../lib/cn';
+import { Button } from './Button';
 
 type ToastVariant = 'success' | 'error' | 'info' | 'warning';
+
+type ToastAction = {
+  label: string;
+  onClick: () => void;
+};
 
 type ToastInput = {
   title: string;
   description?: string;
   variant?: ToastVariant;
   duration?: number;
+  action?: ToastAction;
 };
 
 type ToastRecord = ToastInput & {
@@ -78,7 +85,10 @@ export function ToastProvider({ children }: ToastProviderProps) {
         title: input.title,
         description: input.description,
         variant: input.variant ?? 'info',
-        duration: input.duration ?? (pointsMoment ? 5600 : 4000),
+        action: input.action,
+        duration:
+          input.duration ??
+          (input.action ? 12_000 : pointsMoment ? 5600 : 4000),
       };
 
       setToasts((current) => [...current, record]);
@@ -180,6 +190,20 @@ const ToastItem = forwardRef<HTMLDivElement, ToastItemProps>(function ToastItem(
             {toast.description.replace(pointsLabel, '').trim() ||
               'Nice work — keep the momentum going.'}
           </p>
+        ) : null}
+        {toast.action ? (
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="mt-3"
+            onClick={() => {
+              toast.action?.onClick();
+              onDismiss();
+            }}
+          >
+            {toast.action.label}
+          </Button>
         ) : null}
       </div>
       <button

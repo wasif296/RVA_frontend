@@ -1,6 +1,7 @@
 import { apiFetch } from '../../lib/apiClient';
 import type {
   ChangePasswordInput,
+  InviteInfo,
   LoginInput,
   LoginResponse,
   MeResponse,
@@ -34,5 +35,16 @@ export function changePassword(input: ChangePasswordInput): Promise<void> {
   return apiFetch<void>('/auth/change-password', {
     method: 'POST',
     body: JSON.stringify(input),
+  });
+}
+
+export function getInvite(token: string): Promise<InviteInfo> {
+  return apiFetch<InviteInfo>(`/auth/invite/${encodeURIComponent(token)}`);
+}
+
+export function acceptInvite(token: string, password: string): Promise<LoginResponse> {
+  return apiFetch<LoginResponse>(`/auth/invite/${encodeURIComponent(token)}/accept`, {
+    method: 'POST',
+    body: JSON.stringify({ password }),
   });
 }
