@@ -69,9 +69,13 @@ export function useUpdateCourse() {
       toast({
         variant: 'success',
         title:
-          variables.input.status === 'published' ? 'Course published' : 'Course updated',
-        description:
           variables.input.status === 'published'
+            ? 'Course published'
+            : variables.input.status === 'archived'
+              ? 'Course archived'
+              : 'Course updated',
+        description:
+          variables.input.status === 'published' || variables.input.status === 'archived'
             ? result.course.title
             : undefined,
       });
@@ -92,21 +96,13 @@ export function useDeleteCourse() {
 
   return useMutation({
     mutationFn: (id: string) => coursesApi.deleteCourse(id),
-    onSuccess: async (result) => {
+    onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: coursesQueryKey }),
         queryClient.invalidateQueries({ queryKey: ['catalog-courses'] }),
         queryClient.invalidateQueries({ queryKey: ['progress-summary'] }),
         queryClient.invalidateQueries({ queryKey: ['course-detail'] }),
       ]);
-      if (result && 'message' in result) {
-        toast({
-          variant: 'warning',
-          title: 'Course archived',
-          description: result.message,
-        });
-        return;
-      }
       toast({ variant: 'success', title: 'Course deleted' });
     },
     onError: (error) => {
@@ -116,5 +112,13 @@ export function useDeleteCourse() {
         description: error instanceof ApiError ? error.message : 'Something went wrong',
       });
     },
+  });
+}
+
+export function useCourseDeletionImpact(id: string, enabled: boolean) {
+  return useQuery({
+    queryKey: [...coursesQueryKey, 'deletion-impact', id],
+    queryFn: () => coursesApi.getCourseDeletionImpact(id),
+    enabled,
   });
 }

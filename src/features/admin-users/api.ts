@@ -47,3 +47,9 @@ export function resendInvite(id: string): Promise<UserEmailActionResponse> {
     method: 'POST',
   });
 }
+
+export function deleteUser(id: string): Promise<void> {
+  return apiFetch(`/users/${id}`, {
+    method: 'DELETE',
+  });
+}

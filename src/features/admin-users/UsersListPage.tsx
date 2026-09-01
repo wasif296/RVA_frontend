@@ -122,7 +122,7 @@ export function UsersListPage() {
         <div className="page-header__copy">
           <h1 className="page-header__title">Users</h1>
           <p className="page-header__subtitle">
-            Invite learners and admins, resend invites, and deactivate accounts.
+            Invite learners and admins. Deactivate suspends access; delete erases the person.
           </p>
         </div>
         <div className="page-header__actions">

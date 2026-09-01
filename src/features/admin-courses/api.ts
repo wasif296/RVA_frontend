@@ -42,12 +42,16 @@ export function updateCourse(
   });
 }
 
-export function deleteCourse(
-  id: string,
-): Promise<void | { course: AdminCourse; message: string }> {
+export function deleteCourse(id: string): Promise<void> {
   return apiFetch(`/courses/${id}`, {
     method: 'DELETE',
   });
+}
+
+export function getCourseDeletionImpact(
+  id: string,
+): Promise<{ learnersWithProgress: number; pointsAtStake: number }> {
+  return apiFetch(`/courses/${id}/deletion-impact`);
 }
 
 type UploadThumbnailOptions = {

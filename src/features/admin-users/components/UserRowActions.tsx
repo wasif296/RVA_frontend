@@ -10,7 +10,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from '../../../design-system';
-import { useResendInvite, useResetUserPassword, useUpdateUser } from '../hooks';
+import { useResendInvite, useResetUserPassword, useUpdateUser, useDeleteUser } from '../hooks';
 import type { AdminUser } from '../types';
 
 type UserRowActionsProps = {
@@ -22,9 +22,10 @@ export function UserRowActions({ user, currentAdminId }: UserRowActionsProps) {
   const updateUser = useUpdateUser();
   const resetPassword = useResetUserPassword();
   const resendInvite = useResendInvite();
-  const [confirm, setConfirm] = useState<'reset' | 'resend' | 'deactivate' | 'activate' | null>(
-    null,
-  );
+  const deleteUser = useDeleteUser();
+  const [confirm, setConfirm] = useState<
+    'reset' | 'resend' | 'deactivate' | 'activate' | 'delete' | null
+  >(null);
   const isSelf = user.id === currentAdminId;
   const isPending = user.status === 'pending';
 
@@ -60,6 +61,9 @@ export function UserRowActions({ user, currentAdminId }: UserRowActionsProps) {
               ) : (
                 <DropdownItem onSelect={() => setConfirm('activate')}>Activate</DropdownItem>
               )}
+              <DropdownItem destructive onSelect={() => setConfirm('delete')}>
+                Delete permanently
+              </DropdownItem>
             </>
           ) : null}
         </Dropdown>
@@ -155,6 +159,48 @@ export function UserRowActions({ user, currentAdminId }: UserRowActionsProps) {
             }}
           >
             {confirm === 'deactivate' ? 'Deactivate' : 'Activate'}
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal open={confirm === 'delete'} onOpenChange={(open) => !open && setConfirm(null)}>
+        <ModalHeader
+          title="Delete this person permanently?"
+          description={`${user.name} (${user.email}) will be erased. This cannot be undone.`}
+        />
+        <ModalBody>
+          <div className="flex flex-col gap-3 text-sm text-fg-muted">
+            <p>
+              Deactivate instead if you only want to suspend sign-in and keep their history.
+            </p>
+            <p>Permanently deleting destroys:</p>
+            <ul className="list-disc space-y-1 pl-5">
+              <li>Their user account</li>
+              <li>All course progress</li>
+              <li>Quiz attempts and exam submissions</li>
+              <li>Badges</li>
+              <li>Notifications</li>
+              <li>Invite and password-reset tokens</li>
+              <li>Sign-in sessions</li>
+            </ul>
+            <p>Their email will be free for a new account.</p>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button type="button" variant="ghost" onClick={() => setConfirm(null)}>
+            Cancel
+          </Button>
+          <Button
+            type="button"
+            variant="danger"
+            loading={deleteUser.isPending}
+            onClick={() => {
+              deleteUser.mutate(user.id, {
+                onSuccess: () => setConfirm(null),
+              });
+            }}
+          >
+            Delete permanently
           </Button>
         </ModalFooter>
       </Modal>

@@ -94,6 +94,29 @@ export function useResendInvite() {
   });
 }
 
+export function useDeleteUser() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  return useMutation({
+    mutationFn: (id: string) => usersApi.deleteUser(id),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: usersQueryKey });
+      toast({
+        variant: 'success',
+        title: 'User deleted',
+      });
+    },
+    onError: (error) => {
+      toast({
+        variant: 'error',
+        title: 'Could not delete user',
+        description: error instanceof ApiError ? error.message : 'Something went wrong',
+      });
+    },
+  });
+}
+
 export function useResetUserPassword() {
   const queryClient = useQueryClient();
   const { toast } = useToast();

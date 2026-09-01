@@ -19,8 +19,14 @@ import {
   Table,
   type TableColumn,
 } from '../../design-system';
+import { formatPoints } from '../../lib/format';
 import { CourseStatusBadge } from './components/CourseStatusBadge';
-import { useCoursesQuery, useDeleteCourse, useUpdateCourse } from './hooks';
+import {
+  useCourseDeletionImpact,
+  useCoursesQuery,
+  useDeleteCourse,
+  useUpdateCourse,
+} from './hooks';
 import type { AdminCourse, ListCoursesParams } from './types';
 
 function isIncompleteDraft(course: AdminCourse): boolean {
@@ -54,6 +60,7 @@ function CourseRowActions({ course }: { course: AdminCourse }) {
   const updateCourse = useUpdateCourse();
   const deleteCourse = useDeleteCourse();
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const impactQuery = useCourseDeletionImpact(course.id, confirmDelete);
 
   return (
     <>
@@ -106,24 +113,56 @@ function CourseRowActions({ course }: { course: AdminCourse }) {
               Unpublish
             </DropdownItem>
           ) : null}
+          {course.status !== 'archived' ? (
+            <DropdownItem
+              onSelect={() =>
+                updateCourse.mutate({
+                  id: course.id,
+                  input: { status: 'archived' },
+                })
+              }
+            >
+              Archive
+            </DropdownItem>
+          ) : null}
           <DropdownSeparator />
           <DropdownItem destructive onSelect={() => setConfirmDelete(true)}>
-            Delete
+            Delete permanently
           </DropdownItem>
         </Dropdown>
       </div>
 
       <Modal open={confirmDelete} onOpenChange={(open) => !open && setConfirmDelete(false)}>
         <ModalHeader
-          title="Delete course?"
-          description={
-            course.lessonCount > 0 || course.status === 'published'
-              ? `If learners have progress on “${course.title}”, it will be archived instead of permanently removed.`
-              : `Permanently remove “${course.title}” if it has no learner progress.`
-          }
+          title="Delete this course permanently?"
+          description={`“${course.title}” will be erased. This cannot be undone.`}
         />
         <ModalBody>
-          <p className="text-sm text-fg-muted">This action cannot always be undone.</p>
+          <div className="flex flex-col gap-3 text-sm text-fg-muted">
+            <p>
+              Archive instead if you want to hide the course and keep learner history.
+            </p>
+            <p>Permanently deleting destroys:</p>
+            <ul className="list-disc space-y-1 pl-5">
+              <li>The course, all lessons, quizzes, and the final exam</li>
+              <li>Every learner’s progress for this course</li>
+              <li>Quiz attempts, exam submissions, and course badges</li>
+            </ul>
+            {impactQuery.isError ? (
+              <p className="text-danger" role="alert">
+                Could not load how many learners and points are affected. Cancel and try again.
+              </p>
+            ) : impactQuery.isLoading || !impactQuery.data ? (
+              <p>Checking how many learners have progress…</p>
+            ) : (
+              <p>
+                {impactQuery.data.learnersWithProgress}{' '}
+                {impactQuery.data.learnersWithProgress === 1 ? 'learner has' : 'learners have'}{' '}
+                progress. {formatPoints(impactQuery.data.pointsAtStake)} pts will be subtracted
+                from those learners’ totals so remaining points still match visible courses.
+              </p>
+            )}
+          </div>
         </ModalBody>
         <ModalFooter>
           <Button type="button" variant="ghost" onClick={() => setConfirmDelete(false)}>
@@ -133,13 +172,14 @@ function CourseRowActions({ course }: { course: AdminCourse }) {
             type="button"
             variant="danger"
             loading={deleteCourse.isPending}
+            disabled={impactQuery.isLoading || impactQuery.isError || !impactQuery.data}
             onClick={() => {
               deleteCourse.mutate(course.id, {
                 onSuccess: () => setConfirmDelete(false),
               });
             }}
           >
-            Delete
+            Delete permanently
           </Button>
         </ModalFooter>
       </Modal>
