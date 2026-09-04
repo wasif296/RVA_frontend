@@ -4,10 +4,15 @@ import type { Badge } from '../badges/badges.api';
 export type LearnerProgressLesson = {
   lessonId: string;
   title: string;
+  /** True once the learner has at least one heartbeat on this lesson. */
+  started: boolean;
+  watchedSec: number;
+  requiredWatchSec: number;
   videoCompletedAt: string | null;
   videoPointsAwarded: number;
   bestQuizScore: number | null;
   quizMaxScore: number | null;
+  quizPassingScorePct: number | null;
   quizPointsAwarded: number;
   quizAttempts: number;
 };
@@ -20,6 +25,9 @@ export type LearnerProgressFinalExam = {
   submissionStatus: null | 'submitted' | 'graded';
   marksAwarded: number | null;
   passed: boolean | null;
+  feedback: string | null;
+  docUrl: string | null;
+  loomUrl: string | null;
 };
 
 export type LearnerProgressCourse = {
