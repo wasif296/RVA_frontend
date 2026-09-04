@@ -53,7 +53,7 @@ export function ProgressDetailView({
         <div>
           <h2 className="font-display text-2xl text-fg">Courses</h2>
           <p className="text-sm text-fg-muted">
-            Expand a course for per-lesson video and quiz detail.
+            Open a course for per-lesson video, quiz, and exam detail.
           </p>
         </div>
 

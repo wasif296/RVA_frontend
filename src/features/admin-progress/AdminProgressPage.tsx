@@ -82,19 +82,19 @@ export function AdminProgressPage() {
       },
       {
         key: 'coursesStarted',
-        header: 'Started',
+        header: 'Courses started',
         align: 'right',
         render: (row) => row.coursesStarted,
       },
       {
         key: 'coursesCompleted',
-        header: 'Completed',
+        header: 'Courses completed',
         align: 'right',
         render: (row) => row.coursesCompleted,
       },
       {
         key: 'lessonsCompleted',
-        header: 'Lessons',
+        header: 'Lessons completed',
         align: 'right',
         render: (row) => row.lessonsCompleted,
       },
